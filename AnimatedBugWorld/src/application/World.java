@@ -58,7 +58,9 @@ public class World extends Pane{
 	}
 	
 	
-	
+	public void addWeb(Web web) {
+		this.getChildren().add(web);
+	}
 	
 	
 	

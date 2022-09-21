@@ -1,9 +1,13 @@
 package application;
 
+import java.util.ArrayList;
+
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 
 public class Spider extends Bug {
+	
+	private ArrayList<Web> webs = new ArrayList<Web>();
 	
 	public Spider(double x, double y, double rad) {
 		super(x, y, rad);
@@ -52,6 +56,21 @@ public class Spider extends Bug {
 			this.direction = Direction.N;
 		}
 	}
+	
+	public void makeWeb() {
+		Web newWeb = new Web(this.getTranslateX(), this.getTranslateY(), 20);
+		this.webs.add(newWeb);
+		((World) this.getParent()).addWeb(newWeb);
+	}
+
+	public ArrayList<Web> getWebs() {
+		return webs;
+	}
+
+	public void setWebs(ArrayList<Web> webs) {
+		this.webs = webs;
+	}
+	
 	
 	
 }

@@ -63,8 +63,6 @@ public class Bug extends Circle {
 			stoppedCount--;
 		}
 		
-		
-		
 	}
 	
 	

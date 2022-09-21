@@ -1,6 +1,6 @@
 package application;
 	
-import java.awt.event.KeyEvent;
+
 import java.util.ArrayList;
 
 import javafx.animation.KeyFrame;
@@ -17,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -90,7 +91,40 @@ public class Main extends Application {
 		
 
 		final Scene scene = new Scene(border,400,400);
-		scene.setOnKeyTyped( e -> keyTyped(e) );
+
+		scene.addEventFilter(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
+
+			@Override
+			public void handle(KeyEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println(e.getCharacter());
+				
+				if (e.getCharacter().equals("w")) {
+			        world.getSpider().setDirection(Direction.N);
+			        System.out.println("UP");
+			    }
+			    
+			    if (e.getCharacter().equals("s")) {
+			        world.getSpider().setDirection(Direction.S);
+			        System.out.println("Down");
+			    }
+			    
+			    if (e.getCharacter().equals("a")) {
+			        world.getSpider().setDirection(Direction.W);
+			    }
+			    
+			    if (e.getCharacter().equals("d")) {
+			        world.getSpider().setDirection(Direction.E);
+			    }
+			    
+			    
+			    if (e.getCharacter().equals("b")) {
+			        world.getSpider().makeWeb();
+			    }
+			}
+			
+		});
+		//world.setOnKeyTyped( e -> keyTyped(e) );
 		
 		// animation of bugs
 		KeyFrame frame = new KeyFrame(Duration.millis(16), new EventHandler<ActionEvent>() {
@@ -99,7 +133,7 @@ public class Main extends Application {
 			public void handle(ActionEvent arg0) {
 				// animate each of the balls in the arraylist
 				world.update();
-				
+			
 			}
 		});
 		
@@ -141,10 +175,11 @@ public class Main extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.setFullScreen(true);
 		primaryStage.show();
-
 	}
 	
-	public void keyTyped(javafx.scene.input.KeyEvent e) {
+	public void keyTyped(KeyEvent e) {
+		System.out.println(e.getCharacter());
+	
 		if (e.getCode().equals(KeyCode.UP)) {
 	        world.getSpider().setDirection(Direction.N);
 	        System.out.println("UP");
@@ -152,6 +187,7 @@ public class Main extends Application {
 	    
 	    if (e.getCode() == KeyCode.DOWN) {
 	        world.getSpider().setDirection(Direction.S);
+	        System.out.println("Down");
 	    }
 	    
 	    if (e.getCode() == KeyCode.LEFT) {
