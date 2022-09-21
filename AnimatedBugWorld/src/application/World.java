@@ -10,7 +10,7 @@ public class World extends Pane{
 	float x = 50f, y = 50f;
 	final ArrayList<Bug> bugs = new ArrayList<Bug>();
 	final ArrayList<Plant> plants = new ArrayList<Plant>();
-	
+	private Spider spider;
 
 //	private final int BUG_QUANTITY = 3;
 //	private final int PLANT_QUANTITY = 3;
@@ -35,6 +35,7 @@ public class World extends Pane{
 		for (int i = 0; i < plants.size(); i++) {
 			plants.get(i).grow();
 		}
+		spider.update(this);
 	}
 	
 	public ArrayList<Bug> getBugs() {
@@ -44,6 +45,16 @@ public class World extends Pane{
 
 	public ArrayList<Plant> getPlants() {
 		return plants;
+	}
+
+
+	public Spider getSpider() {
+		return spider;
+	}
+
+
+	public void setSpider(Spider spider) {
+		this.spider = spider;
 	}
 	
 	

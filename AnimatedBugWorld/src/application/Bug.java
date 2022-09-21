@@ -25,8 +25,8 @@ public class Bug extends Circle {
 	
 	// constructors
 	// pre-defined bug
-	public Bug(double x, double y) {
-		super(0,0, 10);
+	public Bug(double x, double y, double rad) {
+		super(0,0, rad);
 		this.setTranslateX(x);
 		this.setTranslateY(y);
 		this.energy= 10;

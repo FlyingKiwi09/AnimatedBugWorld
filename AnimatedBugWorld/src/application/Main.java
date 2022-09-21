@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -42,14 +44,21 @@ public class Main extends Application {
 			world.getPlants().add(newPlant);
 			world.getChildren().add(newPlant);
 			
-			Ladybug newLB = new Ladybug(50*(i+1), 50*(i+1));
+			Ladybug newLB = new Ladybug(50*(i+1), 50*(i+1), 10);
 			world.getBugs().add(newLB);
 			world.getChildren().add(newLB);	
 			
-			Fly newBug = new Fly(50*(i+1), 50*(i+1));
+			Fly newBug = new Fly(50*(i+1), 50*(i+1), 10);
 			world.getBugs().add(newBug);
-			world.getChildren().add(newBug);	
+			world.getChildren().add(newBug);
+			
+			
+			
 		}
+		
+		Spider newSpider = new Spider(50, 50, 30);
+		world.setSpider(newSpider);
+		world.getChildren().add(newSpider);
 		
 
 		// controls
@@ -60,6 +69,21 @@ public class Main extends Application {
 		Button play = new Button("play");
 		bottom.getChildren().add(play);
 		bottom.setMargin(play, new Insets(5));
+		
+		Label speedLabel = new Label("Speed");
+		bottom.getChildren().add(speedLabel);
+		bottom.setMargin(speedLabel, new Insets(5));
+
+		Slider speed = new Slider(100, 0, 16);
+		bottom.getChildren().add(speed);
+		bottom.setMargin(speed, new Insets(5));
+		speed.setShowTickMarks(true);
+		speed.setPrefWidth(200);
+		speed.setMajorTickUnit(10);
+		speed.setBlockIncrement(1);
+		
+		
+		
 
 		final Scene scene = new Scene(border,400,400);
 		
@@ -69,7 +93,6 @@ public class Main extends Application {
 			@Override
 			public void handle(ActionEvent arg0) {
 				// animate each of the balls in the arraylist
-				
 				world.update();
 				
 			}
@@ -106,6 +129,7 @@ public class Main extends Application {
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		primaryStage.setTitle("Hello Annimation");
 		primaryStage.setScene(scene);
+		primaryStage.setFullScreen(true);
 		primaryStage.show();
 
 	}

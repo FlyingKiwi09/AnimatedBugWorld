@@ -9,8 +9,8 @@ import javafx.scene.paint.ImagePattern;
 
 public class Fly extends Bug {
 	
-	public Fly(double x, double y) {
-		super(x, y);
+	public Fly(double x, double y, double rad) {
+		super(x, y, rad);
 		this.eats = "Plant";
 //		this.type = "Fly";
 		this.smellRange = 20;
