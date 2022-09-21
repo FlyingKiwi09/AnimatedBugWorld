@@ -8,6 +8,7 @@ import javafx.scene.paint.ImagePattern;
 public class Spider extends Bug {
 	
 	private ArrayList<Web> webs = new ArrayList<Web>();
+	private double readyToWeb = 100;
 	
 	public Spider(double x, double y, double rad) {
 		super(x, y, rad);
@@ -24,6 +25,9 @@ public class Spider extends Bug {
 	@Override
 	public void update(World world) {
 		animate(world.getWidth(), world.getHeight());
+		if (readyToWeb < 100) {
+			readyToWeb++;
+		}
 	}
 	
 	@Override
@@ -58,9 +62,12 @@ public class Spider extends Bug {
 	}
 	
 	public void makeWeb() {
-		Web newWeb = new Web(this.getTranslateX(), this.getTranslateY(), 20);
-		this.webs.add(newWeb);
-		((World) this.getParent()).addWeb(newWeb);
+		if (readyToWeb == 100) {
+			Web newWeb = new Web(this.getTranslateX(), this.getTranslateY(), 20);
+			this.webs.add(newWeb);
+			((World) this.getParent()).addWeb(newWeb);
+			readyToWeb = 0;
+		}
 	}
 
 	public ArrayList<Web> getWebs() {
@@ -70,6 +77,15 @@ public class Spider extends Bug {
 	public void setWebs(ArrayList<Web> webs) {
 		this.webs = webs;
 	}
+
+	public double getReadyToWeb() {
+		return readyToWeb;
+	}
+
+	public void setReadyToWeb(double readyToWeb) {
+		this.readyToWeb = readyToWeb;
+	}
+	
 	
 	
 	

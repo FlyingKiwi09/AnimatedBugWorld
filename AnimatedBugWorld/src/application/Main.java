@@ -15,6 +15,7 @@ import javafx.util.Duration;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -29,7 +30,10 @@ import javafx.scene.shape.Circle;
 
 
 public class Main extends Application {
-	World world = new World();
+	private World world = new World();
+	private int width = 1250;
+	private int height = 650;
+	
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -38,26 +42,19 @@ public class Main extends Application {
 		
 		border.setCenter(world);
 		world.setBackground(new Background(new BackgroundFill(Color.OLIVEDRAB, null, null)));
-		HBox bottom = new HBox();
-		border.setBottom(bottom);
-		bottom.setBackground(new Background(new BackgroundFill(Color.DARKOLIVEGREEN, null, null)));
+		HBox top = new HBox();
+		border.setTop(top);
+		top.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
+		top.setPrefHeight(50);
+		
+		generatePlant(5); // generate 3 plants
+		generateLadybug(5);
+		generateFly(5);
 		
 		// create new bugs and plants, add them to their group and ArrayList
 		for (int i = 0; i < 3; i++) {
 			
-			Plant newPlant = new Plant(50*(i+1), 50*(i+1), 10);
-			world.getPlants().add(newPlant);
-			world.getChildren().add(newPlant);
-			
-			Ladybug newLB = new Ladybug(50*(i+1), 50*(i+1), 10);
-			world.getBugs().add(newLB);
-			world.getChildren().add(newLB);	
-			
-			Fly newBug = new Fly(50*(i+1), 50*(i+1), 10);
-			world.getBugs().add(newBug);
-			world.getChildren().add(newBug);
-			
-			
+		
 			
 		}
 		
@@ -68,29 +65,36 @@ public class Main extends Application {
 
 		// controls
 		Button pause = new Button("Pause");
-		bottom.getChildren().add(pause);
-		bottom.setMargin(pause, new Insets(5));
+		top.getChildren().add(pause);
+		top.setMargin(pause, new Insets(5));
 		
 		Button play = new Button("play");
-		bottom.getChildren().add(play);
-		bottom.setMargin(play, new Insets(5));
+		top.getChildren().add(play);
+		top.setMargin(play, new Insets(5));
 		
-		Label speedLabel = new Label("Speed");
-		bottom.getChildren().add(speedLabel);
-		bottom.setMargin(speedLabel, new Insets(5));
+		Label progressLabel = new Label("Getting Ready to Build a Web");
+		top.getChildren().add(progressLabel);
+		top.setMargin(progressLabel, new Insets(5));
+		
+		ProgressBar webProgress = new ProgressBar(0);
+		webProgress.setPrefWidth(300);
+		top.getChildren().add(webProgress);
+		top.setMargin(webProgress, new Insets(5));
+		
+		
+//
+//		Slider speed = new Slider(100, 0, 16);
+//		bottom.getChildren().add(speed);
+//		bottom.setMargin(speed, new Insets(5));
+//		speed.setShowTickMarks(true);
+//		speed.setPrefWidth(200);
+//		speed.setMajorTickUnit(10);
+//		speed.setBlockIncrement(1);
+		
+		
+		
 
-		Slider speed = new Slider(100, 0, 16);
-		bottom.getChildren().add(speed);
-		bottom.setMargin(speed, new Insets(5));
-		speed.setShowTickMarks(true);
-		speed.setPrefWidth(200);
-		speed.setMajorTickUnit(10);
-		speed.setBlockIncrement(1);
-		
-		
-		
-
-		final Scene scene = new Scene(border,400,400);
+		final Scene scene = new Scene(border,width,height);
 
 		scene.addEventFilter(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
 
@@ -133,7 +137,7 @@ public class Main extends Application {
 			public void handle(ActionEvent arg0) {
 				// animate each of the balls in the arraylist
 				world.update();
-			
+				webProgress.setProgress(world.getSpider().getReadyToWeb()/100);
 			}
 		});
 		
@@ -173,7 +177,6 @@ public class Main extends Application {
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		primaryStage.setTitle("Hello Annimation");
 		primaryStage.setScene(scene);
-		primaryStage.setFullScreen(true);
 		primaryStage.show();
 	}
 	
@@ -202,6 +205,43 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
+	}
+	
+	private void generatePlant(int numberOfPlants) {
+		for (int i = 0; i < numberOfPlants; i++) {
+			int newX = getRandomNumber(40, width-40);
+			int newY = getRandomNumber(40, height-40);
+			Plant newPlant = new Plant(newX, newY, 10);
+			world.getPlants().add(newPlant);
+			world.getChildren().add(newPlant);
+		}
+	}
+	
+	
+	private void generateLadybug(int numberOfLadyBugs) {
+		for (int i = 0; i < numberOfLadyBugs; i++) {
+			int newX = getRandomNumber(40, width);
+			int newY = getRandomNumber(40, height);
+			Ladybug newLB = new Ladybug(newX, newY, 10);
+			world.getBugs().add(newLB);
+			world.getChildren().add(newLB);
+		}
+	}
+	
+	private void generateFly(int numberOfFlys) {
+		for (int i = 0; i < numberOfFlys; i++) {
+			int newX = getRandomNumber(40, width);
+			int newY = getRandomNumber(40, height);
+			Fly newBug = new Fly(newX, newY, 10);
+			world.getBugs().add(newBug);
+			world.getChildren().add(newBug);
+		}
+	}
+		
+	
+	
+	private int getRandomNumber(int minimum, int maximum) {
+		return (int) (Math.random() * (maximum)) + minimum;
 	}
 	
 	
