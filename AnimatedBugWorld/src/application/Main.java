@@ -10,6 +10,8 @@ import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -36,6 +38,13 @@ public class Main extends Application {
 			center.getChildren().add(newBug);
 		}
 		
+		// controls
+		Button pause = new Button("Pause");
+		bottom.getChildren().add(pause);
+		
+		Button play = new Button("play");
+		bottom.getChildren().add(play);
+		
 
 		final Scene scene = new Scene(border,400,400);
 		
@@ -56,6 +65,26 @@ public class Main extends Application {
 		timeline.setCycleCount(javafx.animation.Animation.INDEFINITE);
 		timeline.getKeyFrames().add(frame);
 		timeline.play();
+		
+		// pause
+		pause.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				timeline.pause();
+			}
+			
+		});
+		
+		//play		
+		play.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				timeline.play();
+			}
+			
+		});
 		
 		
 		// set scene and show primaryStage

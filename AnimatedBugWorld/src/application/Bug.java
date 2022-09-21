@@ -46,15 +46,13 @@ public class Bug extends Button {
 	
 	public void animate(double sceneWidth, double sceneHeight) {
 		
-
+		// checks if the bug is at an edge and sets a new direction if it is
 		checkBounce(sceneWidth, sceneHeight);
 		
+		// updates dx, dy values according to direction and rotates the image appropriately
 		setDXDY();
 		
-		
-		
-		
-		// update center coordinates
+		// updates coordinates of translation based on current dx and dy
 		this.setTranslateX(this.getTranslateX() + dx);
 		this.setTranslateY(this.getTranslateY() + dy);
 	}
