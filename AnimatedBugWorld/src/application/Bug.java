@@ -7,13 +7,17 @@ import javafx.scene.shape.Circle;
 public class Bug extends Circle {
 	
 	
-	private float dx, dy;
+	protected float dx;
 //	protected final ImageView imageView;
+
+	protected float dy;
 	
 	protected int energy;
 	protected int ID;
 	protected static int bugCount = 0;
 	protected Direction direction;
+
+
 	protected int smellRange;
 	protected String eats;
 	
@@ -266,7 +270,9 @@ public class Bug extends Circle {
 	
 
 	
-	
+	public void setDirection(Direction direction) {
+		this.direction = direction;
+	}
 	
 	
 	

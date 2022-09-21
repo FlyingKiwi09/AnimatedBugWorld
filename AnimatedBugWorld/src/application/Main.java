@@ -1,11 +1,13 @@
 package application;
 	
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.stage.Stage;
@@ -14,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -25,12 +28,13 @@ import javafx.scene.shape.Circle;
 
 
 public class Main extends Application {
+	World world = new World();
 	
 	@Override
 	public void start(Stage primaryStage) {
 		
 		BorderPane border = new BorderPane();
-		World world = new World();
+		
 		border.setCenter(world);
 		world.setBackground(new Background(new BackgroundFill(Color.OLIVEDRAB, null, null)));
 		HBox bottom = new HBox();
@@ -86,6 +90,7 @@ public class Main extends Application {
 		
 
 		final Scene scene = new Scene(border,400,400);
+		scene.setOnKeyTyped( e -> keyTyped(e) );
 		
 		// animation of bugs
 		KeyFrame frame = new KeyFrame(Duration.millis(16), new EventHandler<ActionEvent>() {
@@ -125,6 +130,11 @@ public class Main extends Application {
 		});
 		
 		
+
+
+	
+		
+		
 		// set scene and show primaryStage
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		primaryStage.setTitle("Hello Annimation");
@@ -133,6 +143,26 @@ public class Main extends Application {
 		primaryStage.show();
 
 	}
+	
+	public void keyTyped(javafx.scene.input.KeyEvent e) {
+		if (e.getCode().equals(KeyCode.UP)) {
+	        world.getSpider().setDirection(Direction.N);
+	        System.out.println("UP");
+	    }
+	    
+	    if (e.getCode() == KeyCode.DOWN) {
+	        world.getSpider().setDirection(Direction.S);
+	    }
+	    
+	    if (e.getCode() == KeyCode.LEFT) {
+	        world.getSpider().setDirection(Direction.W);
+	    }
+	    
+	    if (e.getCode() == KeyCode.RIGHT) {
+	        world.getSpider().setDirection(Direction.E);
+	    }
+	}
+	
 	
 	public static void main(String[] args) {
 		launch(args);
