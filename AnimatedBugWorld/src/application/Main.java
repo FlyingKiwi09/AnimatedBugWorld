@@ -31,7 +31,7 @@ public class Main extends Application {
 		
 		// create new bugs, add them to the group and the ArrayList
 		for (int i = 0; i < 3; i++) {
-			Bug newBug = new Bug(x*(i+1), y*(i+1));
+			Fly newBug = new Fly(x*(i+1), y*(i+1));
 			bugs.add(newBug);
 			center.getChildren().add(newBug);
 		}

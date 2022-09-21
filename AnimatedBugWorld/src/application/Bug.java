@@ -1,8 +1,9 @@
 package application;
 
+import javafx.scene.control.Button;
 import javafx.scene.shape.Circle;
 
-public class Bug extends Circle {
+public class Bug extends Button {
 	
 	
 	private float dx = 1.5f, dy=1.5f;
@@ -23,7 +24,9 @@ public class Bug extends Circle {
 	// constructors
 	// pre-defined bug
 	public Bug(double x, double y) {
-		super(x, y, 30);
+		super();
+		this.setTranslateX(x);
+		this.setTranslateY(y);
 		this.species = "Fly";
 		this.name = "Buzz";
 		this.symbol = 'F';
@@ -53,8 +56,8 @@ public class Bug extends Circle {
 		 *			- positive
 		 *			- negative
 		 *			- 0*/
-		if(this.getCenterX() < this.getRadius() || 
-			this.getCenterX() + this.getRadius() > sceneWidth) {
+		if(this.getTranslateX() < 1 || 
+			this.getTranslateX() + this.getWidth() > sceneWidth) {
 			
 			
 			int dir = (int)(0 + Math.random()*3);
@@ -76,8 +79,8 @@ public class Bug extends Circle {
 			 }
 		}
 		
-		if(this.getCenterY() < this.getRadius() || 
-				this.getCenterY() + this.getRadius() > sceneHeight) {
+		if(this.getTranslateY() < 1 || 
+				this.getTranslateY() + this.getHeight() > sceneHeight) {
 			
 			int dir = (int)(0 + Math.random()*3);
 			
@@ -102,8 +105,8 @@ public class Bug extends Circle {
 		// update center coordinates
 		
 		
-		this.setCenterX(this.getCenterX() + dx);
-		this.setCenterY(this.getCenterY() + dy);
+		this.setTranslateX(this.getTranslateX() + dx);
+		this.setTranslateY(this.getTranslateY() + dy);
 	}
 	
 
