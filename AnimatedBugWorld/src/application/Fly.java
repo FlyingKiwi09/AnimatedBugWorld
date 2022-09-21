@@ -16,6 +16,7 @@ public class Fly extends Bug {
 //		this.type = "Fly";
 		this.smellRange = 20;
 		Image flyImage = new Image(getClass().getResourceAsStream("/fly.png"), 20,20,true,true);
-		this.setGraphic(new ImageView(flyImage));
+		this.imageView.setImage(flyImage);
+		this.setGraphic(this.imageView);
 	}
 }

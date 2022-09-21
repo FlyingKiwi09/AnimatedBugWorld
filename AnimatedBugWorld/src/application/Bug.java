@@ -1,13 +1,14 @@
 package application;
 
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
 
 public class Bug extends Button {
 	
 	
-	private float dx = 1.5f, dy=1.5f;
-	
+	private float dx, dy;
+	protected final ImageView imageView;
 	
 	protected String species;
 	protected String name;
@@ -37,78 +38,151 @@ public class Bug extends Button {
 		this.eats = "";
 		this.lastEaten = 4;
 		this.dead = false;
+		this.imageView = new ImageView();
 		setRandomDirection();
+		setDXDY();
 	}
 	
 	
 	public void animate(double sceneWidth, double sceneHeight) {
 		
-		/*Keep in bounds
-		 * If the bug reaches the left or right boundary:
-		 * 		- reverse it's movement along the x-axis i.e dx = -dx
-		 *		- there are then 3 options
-		 *			- dy is positive
-		 *			- dy is negative
-		 *			- dy is 0 
-		 *If the bug reaches the top or bottom boundary:
-		 *		- reverse it's movement along the y-axis dy = -dy
-		 *		- three options for dx
-		 *			- positive
-		 *			- negative
-		 *			- 0*/
-		if(this.getTranslateX() < 1 || 
-			this.getTranslateX() + this.getWidth() > sceneWidth) {
-			
-			
-			int dir = (int)(0 + Math.random()*3);
-			
-			 switch(dir)
-			 {
-				 case 0: 
-					 this.dx = -dx;
-					 this.dy = 1.5f;
-					 break;
-				 case 1: 
-					 this.dx = -dx;
-					 this.dy = 0;
-					 break;
-				 case 2: 
-					 this.dx = -dx;
-					 this.dy = -1.5f;
-					 break;
-			 }
-		}
+
+		checkBounce(sceneWidth, sceneHeight);
 		
-		if(this.getTranslateY() < 1 || 
-				this.getTranslateY() + this.getHeight() > sceneHeight) {
-			
-			int dir = (int)(0 + Math.random()*3);
-			
-			 switch(dir)
-			 {
-				 case 0: 
-					 this.dy = -dy;
-					 this.dx = 1.5f;
-					 break;
-				 case 1: 
-					 this.dy = -dy;
-					 this.dx = 0;
-					 break;
-				 case 2: 
-					 this.dy = -dy;
-					 this.dx = -1.5f;
-					 break;
-			 }
-		}
+		setDXDY();
+		
+		
 		
 		
 		// update center coordinates
-		
-		
 		this.setTranslateX(this.getTranslateX() + dx);
 		this.setTranslateY(this.getTranslateY() + dy);
 	}
 	
+	
+	public void checkBounce(double sceneWidth, double sceneHeight) {
+		/* if the bug reaches a boundary set it's direction to one of the three possible "bounce" directions
+		 * e.g. if it's at the left hand edge, it can go NE, E or SE
+		*/
+		
+		// random number: 0, 1 or 2 to set one of the 3 possible bounce direcitons
+		int dir = (int)(0 + Math.random()*3);
+		
+		
+		// if at the left hand edge, it can go NE, E or SE
+		if(this.getTranslateX() < 1 ) {
+			switch(dir)
+			 {
+				 case 0: 
+					 this.direction = Direction.NE;
+					 break;
+				 case 1: 
+					 this.direction = Direction.E;
+					 break;
+				 case 2: 
+					 this.direction = Direction.SE;
+					 break;
+			 }
+		}
+		
+		
+		// if at the right hand edge, it can go NW, W or SW
+		if (this.getTranslateX() + this.getWidth() > sceneWidth){
+			switch(dir)
+			 {
+				 case 0: 
+					 this.direction = Direction.NW;
+					 break;
+				 case 1: 
+					 this.direction = Direction.W;
+					 break;
+				 case 2: 
+					 this.direction = Direction.SW;
+					 break;
+			 }
+		}
+			
+		
+		// if at the top edge, it can go SW, S or SE
+		if(this.getTranslateY() < 1) {
+			switch(dir)
+			 {
+				 case 0: 
+					 this.direction = Direction.SW;
+					 break;
+				 case 1: 
+					 this.direction = Direction.S;
+					 break;
+				 case 2: 
+					 this.direction = Direction.SE;
+					 break;
+			 }
+		}
+		
+		
+		// if at the bottom edge, it can go NW, N or NE
+		if (this.getTranslateY() + this.getHeight() > sceneHeight) {
+			
+			switch(dir)
+			 {
+				 case 0: 
+					 this.direction = Direction.NW;
+					 break;
+				 case 1: 
+					 this.direction = Direction.N;
+					 break;
+				 case 2: 
+					 this.direction = Direction.SE;
+					 break;
+			 }
+		}
+	}
+	
+	
+	public void setDXDY() {
+		switch (this.direction) {
+			case N:
+				this.dx = 0;
+				this.dy = -1.5f;
+				this.imageView.setRotate(0);
+				break;
+			 case NE: 
+				 this.dx = 1.5f;
+				 this.dy = -1.5f;
+				 this.imageView.setRotate(45);
+				 break;
+			 case E: 
+				 this.dx = 1.5f;
+				 this.dy = 0;
+				 this.imageView.setRotate(90);
+				 break;
+			 case SE: 
+				 this.dx = 1.5f;
+				 this.dy = 1.5f;
+				 this.imageView.setRotate(135);
+				 break;
+			 case S: 
+				 this.dx = 0;
+				 this.dy = 1.5f;
+				 this.imageView.setRotate(180);
+				 break;
+			 case SW: 
+				 this.dx = -1.5f;
+				 this.dy = 1.5f;
+				 this.imageView.setRotate(225);
+				 break;
+			 case W: 
+				 this.dx = -1.5f;
+				 this.dy = 0;
+				 this.imageView.setRotate(270);
+				 break;
+			 case NW: 
+				 this.dx = -1.5f;
+				 this.dy = -1.5f;
+				 this.imageView.setRotate(315);
+				 break;
+		}
+	}
 
 	
 	public void setRandomDirection() {
@@ -119,46 +193,45 @@ public class Bug extends Button {
 		 {
 			 case 0: 
 				 this.direction = Direction.N;
-				 this.dx = 0;
-				 this.dy = -1.5f;
 				 break;
 			 case 1: 
 				 this.direction = Direction.NE;
-				 this.dx = 1.5f;
-				 this.dy = -1.5f;
 				 break;
 			 case 2: 
 				 this.direction = Direction.E;
-				 this.dx = 1.5f;
-				 this.dy = 0;
 				 break;
 			 case 3: 
 				 this.direction = Direction.SE;
-				 this.dx = 1.5f;
-				 this.dy = 1.5f;
 				 break;
 			 case 4: 
 				 this.direction = Direction.S;
-				 this.dx = 0;
-				 this.dy = 1.5f;
 				 break;
 			 case 5: 
 				 this.direction = Direction.SW;
-				 this.dx = -1.5f;
-				 this.dy = 1.5f;
 				 break;
 			 case 6: 
 				 this.direction = Direction.W;
-				 this.dx = -1.5f;
-				 this.dy = 0;
 				 break;
 			 case 7: 
 				 this.direction = Direction.NW;
-				 this.dx = -1.5f;
-				 this.dy = -1.5f;
 				 break;
 		 }
 	}
+	
+	
+	// set image rotation
+	
+	public void setImagerotation() {
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public void move(World w) {
 		int proposedX = this.xPos;
