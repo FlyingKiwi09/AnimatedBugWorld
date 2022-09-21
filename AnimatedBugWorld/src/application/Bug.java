@@ -16,10 +16,10 @@ public class Bug extends Circle {
 	protected Direction direction;
 	protected int smellRange;
 	protected String eats;
-	protected int lastEaten;
+	
 	protected boolean dead;
 	
-	
+	protected int lastEaten;
 	protected boolean isStopped;
 	protected int stoppedCount;
 	
@@ -34,21 +34,62 @@ public class Bug extends Circle {
 		this.ID = bugCount;
 		this.smellRange = 2;
 		this.eats = "";
-		this.lastEaten = 4;
+		this.lastEaten = 80;
 		this.dead = false;
-//		this.imageView = new ImageView();
+		this.isStopped = false;
 		setRandomDirection();
 		setDXDY();
 	}
 	
 	
-	public void update(double sceneWidth, double sceneHeight) {
-		if (!checkStopped()) {
-			animate(sceneWidth, sceneHeight);
+	public void update(World world) {
+		this.lastEaten++;
+
+		if(stoppedCount == 0) {
+			animate(world.getWidth(), world.getHeight());
+			if (this.lastEaten > 20) {
+				Plant toEat = nextToPlant(world);
+				
+				if (toEat != null && toEat.getRadius() > 20) {
+					
+					eat(toEat);
+				}
+			}
+		} else {
+			stoppedCount--;
 		}
 		
 		
+		
 	}
+	
+	
+	public Plant nextToPlant(World w) {
+		Plant nextTo = null;
+		for (Plant p : w.getPlants()) {
+			double plantX = p.getCenterX();
+			double plantY = p.getCenterY();
+			double plantRad = p.getRadius();
+			
+			if ((this.getTranslateX() > (plantX - plantRad)) && (this.getTranslateX() < (plantX + plantRad))) {
+				
+				if ((this.getTranslateY() > (plantY - plantRad)) && (this.getTranslateY() < (plantY + plantRad))) {
+					nextTo = p;
+				}
+			}
+			
+		}
+		return nextTo;
+	}
+	
+	
+	
+	public void eat(Plant toEat) {
+		
+	}
+	
+	
+	
 	
 	public void animate(double sceneWidth, double sceneHeight) {
 		
@@ -223,13 +264,10 @@ public class Bug extends Circle {
 	}
 	
 	
-	public boolean checkStopped() {
-		if (stoppedCount > 0) {
-			stoppedCount--;
-			return true;
-		} 
-		return false;
-	}
+
+	
+	
+	
 	
 	
 	
@@ -264,18 +302,8 @@ public class Bug extends Circle {
 		}
 	}
 	
-	public Plant nextToPlant(World w) {
-		Plant nextTo = null;
-		for (Plant p : w.getPlants()) {
-			int plantX = p.getxPos();
-			int plantY = p.getyPos();
-			// if plant is next to (above, below, left or right of) this bug
-			if (((this.xPos == plantX) && (this.yPos == plantY+1 || this.yPos == plantY-1)) || ((this.yPos == plantY) && (this.xPos == plantX+1 || this.xPos == plantX-1))) {
-				nextTo = p;
-			} 
-		}
-		return nextTo;
-	}
+
+	
 	
 	public WorldObject nextToFood(World w) {
 		WorldObject nextTo = null;

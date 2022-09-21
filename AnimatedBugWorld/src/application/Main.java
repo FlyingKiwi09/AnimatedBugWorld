@@ -20,16 +20,12 @@ import javafx.scene.shape.Circle;
 
 public class Main extends Application {
 	
-	float x = 50f, y = 50f;
-	final ArrayList<Bug> bugs = new ArrayList<Bug>();
-	final ArrayList<Plant> plants = new ArrayList<Plant>();
-	
 	@Override
 	public void start(Stage primaryStage) {
 		
 		BorderPane border = new BorderPane();
-		Pane center = new Pane();
-		border.setCenter(center);
+		World world = new World();
+		border.setCenter(world);
 		HBox bottom = new HBox();
 		border.setBottom(bottom);
 		
@@ -37,16 +33,16 @@ public class Main extends Application {
 		for (int i = 0; i < 3; i++) {
 			
 			Plant newPlant = new Plant(50*(i+1), 50*(i+1), 10);
-			plants.add(newPlant);
-			center.getChildren().add(newPlant);
+			world.getPlants().add(newPlant);
+			world.getChildren().add(newPlant);
 			
-			Ladybug newLB = new Ladybug(x*(i+1), y*(i+1));
-			bugs.add(newLB);
-			center.getChildren().add(newLB);	
+			Ladybug newLB = new Ladybug(50*(i+1), 50*(i+1));
+			world.getBugs().add(newLB);
+			world.getChildren().add(newLB);	
 			
-			Fly newBug = new Fly(x*(i+1), y*(i+1));
-			bugs.add(newBug);
-			center.getChildren().add(newBug);	
+			Fly newBug = new Fly(50*(i+1), 50*(i+1));
+			world.getBugs().add(newBug);
+			world.getChildren().add(newBug);	
 		}
 		
 
@@ -66,13 +62,9 @@ public class Main extends Application {
 			@Override
 			public void handle(ActionEvent arg0) {
 				// animate each of the balls in the arraylist
-				for (int i = 0; i < bugs.size(); i++) {					
-					bugs.get(i).update(center.getWidth(), center.getHeight());
-				}
 				
-				for (int i = 0; i < plants.size(); i++) {
-					plants.get(i).grow();
-				}
+				world.update();
+				
 			}
 		});
 		
@@ -114,4 +106,7 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+	
+	
+
 }

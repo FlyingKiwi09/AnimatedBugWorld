@@ -1,15 +1,17 @@
 package application;
 import java.util.ArrayList;
 
-public class World {
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+
+public class World extends Pane{
 	
+	float x = 50f, y = 50f;
+	final ArrayList<Bug> bugs = new ArrayList<Bug>();
+	final ArrayList<Plant> plants = new ArrayList<Plant>();
 	
-	
-	
-	
-	
-//	public static int WORLD_WIDTH = 40; // min 3
-//	public static int WORLD_HEIGTH = 15; // min 3
+
 //	private final int BUG_QUANTITY = 3;
 //	private final int PLANT_QUANTITY = 3;
 //	private final int OBSTACLE_QUANTITY = 3;
@@ -20,13 +22,28 @@ public class World {
 	
 	// constructor
 	public World() {
-		this.bugs = new ArrayList<Bug>();
-		this.obstacles = new ArrayList<Obstacle>();
-		this.plants = new ArrayList<Plant>();
-		this.objectList = new ArrayList<WorldObject>();
-		createBugs();
-		createPlants();
-		createObstacles();
+
+	
+	}
+
+
+	public void update() {
+		for (int i = 0; i < bugs.size(); i++) {					
+			bugs.get(i).update(this);
+		}
+		
+		for (int i = 0; i < plants.size(); i++) {
+			plants.get(i).grow();
+		}
+	}
+	
+	public ArrayList<Bug> getBugs() {
+		return bugs;
+	}
+
+
+	public ArrayList<Plant> getPlants() {
+		return plants;
 	}
 	
 	
