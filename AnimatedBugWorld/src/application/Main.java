@@ -15,12 +15,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 
 
 public class Main extends Application {
 	
 	float x = 50f, y = 50f;
 	final ArrayList<Bug> bugs = new ArrayList<Bug>();
+	final ArrayList<Plant> plants = new ArrayList<Plant>();
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -31,13 +33,23 @@ public class Main extends Application {
 		HBox bottom = new HBox();
 		border.setBottom(bottom);
 		
-		// create new bugs, add them to the group and the ArrayList
+		// create new bugs and plants, add them to their group and ArrayList
 		for (int i = 0; i < 3; i++) {
+			
+			Plant newPlant = new Plant(50*(i+1), 50*(i+1), 10);
+			plants.add(newPlant);
+			center.getChildren().add(newPlant);
+			
+			Ladybug newLB = new Ladybug(x*(i+1), y*(i+1));
+			bugs.add(newLB);
+			center.getChildren().add(newLB);	
+			
 			Fly newBug = new Fly(x*(i+1), y*(i+1));
 			bugs.add(newBug);
-			center.getChildren().add(newBug);
+			center.getChildren().add(newBug);	
 		}
 		
+
 		// controls
 		Button pause = new Button("Pause");
 		bottom.getChildren().add(pause);
@@ -55,7 +67,11 @@ public class Main extends Application {
 			public void handle(ActionEvent arg0) {
 				// animate each of the balls in the arraylist
 				for (int i = 0; i < bugs.size(); i++) {					
-					bugs.get(i).animate(scene.getWidth(), scene.getHeight());
+					bugs.get(i).update(center.getWidth(), center.getHeight());
+				}
+				
+				for (int i = 0; i < plants.size(); i++) {
+					plants.get(i).grow();
 				}
 			}
 		});

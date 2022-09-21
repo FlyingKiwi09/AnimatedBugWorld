@@ -1,34 +1,31 @@
 package application;
 
-public class Plant extends WorldObject {
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 
-	private int size;
-	private final int MAX_SIZE = 9;
+public class Plant extends Circle {
+
+	private final int MAX_SIZE = 40;
 	private final int MIN_SIZE = 0;
 	
-	public Plant() {
-		super();
-		this.size = (int)Math.floor(0+ Math.random()*3);
-		this.type = "Plant";
+	public Plant(double x, double y, double rad) {
+		super(x, y, rad);
+		Image image = new Image(("/plant.jfif"));
+		this.setFill(new ImagePattern(image));
 	}
 	
-	public int getSize() {
-		return size;
-	}
-
-	public void setSize(int size) {
-		this.size = size;
-	}
 	
-	public void grow() {
-		if (this.size < MAX_SIZE) {
-			this.size++;
+	public void grow() {		
+		int shouldGrow = (int)(0 + Math.random()*50); // gives 1/50 chance of growing
+		if (this.getRadius() < MAX_SIZE && (shouldGrow == 1)) {
+			this.setRadius(this.getRadius()+ 1);
 		}
 	}
 	
 	public void eaten() {
-		if (this.size > 0) {
-			this.size--;
+		if (this.getRadius() > 0) {
+			this.setRadius(this.getRadius()- 10);
 		}
 	}
 	

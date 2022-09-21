@@ -4,15 +4,12 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
 
-public class Bug extends Button {
+public class Bug extends Circle {
 	
 	
 	private float dx, dy;
-	protected final ImageView imageView;
+//	protected final ImageView imageView;
 	
-	protected String species;
-	protected String name;
-	protected char symbol;
 	protected int energy;
 	protected int ID;
 	protected static int bugCount = 0;
@@ -22,15 +19,16 @@ public class Bug extends Button {
 	protected int lastEaten;
 	protected boolean dead;
 	
+	
+	protected boolean isStopped;
+	protected int stoppedCount;
+	
 	// constructors
 	// pre-defined bug
 	public Bug(double x, double y) {
-		super();
+		super(0,0, 10);
 		this.setTranslateX(x);
 		this.setTranslateY(y);
-		this.species = "Fly";
-		this.name = "Buzz";
-		this.symbol = 'F';
 		this.energy= 10;
 		bugCount++;
 		this.ID = bugCount;
@@ -38,11 +36,19 @@ public class Bug extends Button {
 		this.eats = "";
 		this.lastEaten = 4;
 		this.dead = false;
-		this.imageView = new ImageView();
+//		this.imageView = new ImageView();
 		setRandomDirection();
 		setDXDY();
 	}
 	
+	
+	public void update(double sceneWidth, double sceneHeight) {
+		if (!checkStopped()) {
+			animate(sceneWidth, sceneHeight);
+		}
+		
+		
+	}
 	
 	public void animate(double sceneWidth, double sceneHeight) {
 		
@@ -68,7 +74,7 @@ public class Bug extends Button {
 		
 		
 		// if at the left hand edge, it can go NE, E or SE
-		if(this.getTranslateX() < 1 ) {
+		if(this.getTranslateX() - this.getRadius() < 0 ) {
 			switch(dir)
 			 {
 				 case 0: 
@@ -85,7 +91,7 @@ public class Bug extends Button {
 		
 		
 		// if at the right hand edge, it can go NW, W or SW
-		if (this.getTranslateX() + this.getWidth() > sceneWidth){
+		if (this.getTranslateX() + this.getRadius() > sceneWidth){
 			switch(dir)
 			 {
 				 case 0: 
@@ -102,7 +108,7 @@ public class Bug extends Button {
 			
 		
 		// if at the top edge, it can go SW, S or SE
-		if(this.getTranslateY() < 1) {
+		if(this.getTranslateY() - this.getRadius() < 0) {
 			switch(dir)
 			 {
 				 case 0: 
@@ -119,7 +125,7 @@ public class Bug extends Button {
 		
 		
 		// if at the bottom edge, it can go NW, N or NE
-		if (this.getTranslateY() + this.getHeight() > sceneHeight) {
+		if (this.getTranslateY() + this.getRadius() > sceneHeight) {
 			
 			switch(dir)
 			 {
@@ -142,42 +148,42 @@ public class Bug extends Button {
 			case N:
 				this.dx = 0;
 				this.dy = -1.5f;
-				this.imageView.setRotate(0);
+				this.setRotate(0);
 				break;
 			 case NE: 
 				 this.dx = 1.5f;
 				 this.dy = -1.5f;
-				 this.imageView.setRotate(45);
+				 this.setRotate(45);
 				 break;
 			 case E: 
 				 this.dx = 1.5f;
 				 this.dy = 0;
-				 this.imageView.setRotate(90);
+				 this.setRotate(90);
 				 break;
 			 case SE: 
 				 this.dx = 1.5f;
 				 this.dy = 1.5f;
-				 this.imageView.setRotate(135);
+				 this.setRotate(135);
 				 break;
 			 case S: 
 				 this.dx = 0;
 				 this.dy = 1.5f;
-				 this.imageView.setRotate(180);
+				 this.setRotate(180);
 				 break;
 			 case SW: 
 				 this.dx = -1.5f;
 				 this.dy = 1.5f;
-				 this.imageView.setRotate(225);
+				 this.setRotate(225);
 				 break;
 			 case W: 
 				 this.dx = -1.5f;
 				 this.dy = 0;
-				 this.imageView.setRotate(270);
+				 this.setRotate(270);
 				 break;
 			 case NW: 
 				 this.dx = -1.5f;
 				 this.dy = -1.5f;
-				 this.imageView.setRotate(315);
+				 this.setRotate(315);
 				 break;
 		}
 	}
@@ -217,10 +223,12 @@ public class Bug extends Button {
 	}
 	
 	
-	// set image rotation
-	
-	public void setImagerotation() {
-		
+	public boolean checkStopped() {
+		if (stoppedCount > 0) {
+			stoppedCount--;
+			return true;
+		} 
+		return false;
 	}
 	
 	
