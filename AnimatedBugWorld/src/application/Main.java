@@ -7,14 +7,18 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 
@@ -26,8 +30,10 @@ public class Main extends Application {
 		BorderPane border = new BorderPane();
 		World world = new World();
 		border.setCenter(world);
+		world.setBackground(new Background(new BackgroundFill(Color.OLIVEDRAB, null, null)));
 		HBox bottom = new HBox();
 		border.setBottom(bottom);
+		bottom.setBackground(new Background(new BackgroundFill(Color.DARKOLIVEGREEN, null, null)));
 		
 		// create new bugs and plants, add them to their group and ArrayList
 		for (int i = 0; i < 3; i++) {
@@ -49,10 +55,11 @@ public class Main extends Application {
 		// controls
 		Button pause = new Button("Pause");
 		bottom.getChildren().add(pause);
+		bottom.setMargin(pause, new Insets(5));
 		
 		Button play = new Button("play");
 		bottom.getChildren().add(play);
-		
+		bottom.setMargin(play, new Insets(5));
 
 		final Scene scene = new Scene(border,400,400);
 		
