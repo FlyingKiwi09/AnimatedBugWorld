@@ -19,5 +19,25 @@ public class Ladybug extends Bug {
 		toEat.setRadius(toEat.getRadius()-5);
 		this.lastEaten = 0;
 	}
+	
+	@Override
+	public void update(World world) {
+		this.lastEaten++;
+
+		if(stoppedCount == 0) {
+			animate(world.getWidth(), world.getHeight());
+			if (this.lastEaten > 20) {
+				Plant toEat = nextToPlant(world);
+				
+				if (toEat != null && toEat.getRadius() > 20) {
+					
+					eat(toEat);
+				}
+			}
+		} else {
+			stoppedCount--;
+		}
+		
+	}
 
 }

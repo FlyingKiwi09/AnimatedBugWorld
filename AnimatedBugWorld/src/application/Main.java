@@ -2,7 +2,6 @@ package application;
 	
 
 import java.util.ArrayList;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -10,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.Scene;
@@ -23,10 +23,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 
@@ -46,24 +49,99 @@ public class Main extends Application {
 		HBox top = new HBox();
 		border.setTop(top);
 		top.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
-		top.setPrefHeight(50);
-
-		// controls
+		top.setPrefHeight(60);
+		top.setAlignment(Pos.CENTER_LEFT);
+		
+		Font buttonFont = new Font(15);
+		Background buttonBackground = new Background(new BackgroundFill(Color.WHITE, new CornerRadii(5), null));
+		
+	// controls
+		// restart button
 		Button restart = new Button("Restart");
 		top.getChildren().add(restart);
 		top.setMargin(restart, new Insets(5));
+		restart.setFont(buttonFont);
+		restart.setBackground(buttonBackground);	
+		restart.setOnMouseEntered(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				restart.setScaleX(1.08);
+				restart.setScaleY(1.08);
+			}
+			
+		});
 		
+		restart.setOnMouseExited(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				restart.setScaleX(1.0);
+				restart.setScaleY(1.0);
+			}
+			
+		});
+		
+		// pause button
 		Button pause = new Button("Pause");
 		top.getChildren().add(pause);
 		top.setMargin(pause, new Insets(5));
+		pause.setFont(buttonFont);
+		pause.setBackground(buttonBackground);
 		
-		Button play = new Button("play");
+		pause.setOnMouseEntered(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				pause.setScaleX(1.08);
+				pause.setScaleY(1.08);
+			}
+			
+		});
+		
+		pause.setOnMouseExited(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				pause.setScaleX(1.0);
+				pause.setScaleY(1.0);
+			}
+			
+		});
+		
+
+		// play button
+		Button play = new Button("Play");
 		top.getChildren().add(play);
 		top.setMargin(play, new Insets(5));
+		play.setFont(buttonFont);
+		play.setBackground(buttonBackground);
 		
-		Label progressLabel = new Label("Getting Ready to Build a Web");
+		play.setOnMouseEntered(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				play.setScaleX(1.08);
+				play.setScaleY(1.08);
+			}
+			
+		});
+		
+		play.setOnMouseExited(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				play.setScaleX(1.0);
+				play.setScaleY(1.0);
+			}
+			
+		});
+		
+		
+		
+		Label progressLabel = new Label("Web Status Bar");
 		top.getChildren().add(progressLabel);
-		top.setMargin(progressLabel, new Insets(5));
+		top.setMargin(progressLabel, new Insets(5,5,5,50));
 		
 		ProgressBar webProgress = new ProgressBar(0);
 		webProgress.setPrefWidth(300);
@@ -75,15 +153,13 @@ public class Main extends Application {
 		top.setMargin(messages, new Insets(5));
 		
 		
-//
-//		Slider speed = new Slider(100, 0, 16);
-//		bottom.getChildren().add(speed);
-//		bottom.setMargin(speed, new Insets(5));
-//		speed.setShowTickMarks(true);
+
+//		Slider speed = new Slider(1, 100, 16);
+//		top.getChildren().add(speed);
+//		top.setMargin(speed, new Insets(5));
 //		speed.setPrefWidth(200);
-//		speed.setMajorTickUnit(10);
 //		speed.setBlockIncrement(1);
-		
+//		
 		
 		
 
