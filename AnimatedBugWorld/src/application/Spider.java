@@ -28,7 +28,39 @@ public class Spider extends Bug {
 		if (readyToWeb < 100) {
 			readyToWeb++;
 		}
+		
+		if (nextToLB(world)) {
+			this.dead = true;
+		}
+		
 	}
+	
+	
+	public boolean nextToLB(World world) {
+		boolean nextTo = false;
+		ArrayList<Bug> bugs = world.getBugs();
+		for (Bug bug: bugs) {
+			
+			if (bug instanceof Ladybug) {
+				double webX = bug.getTranslateX();
+				double webY = bug.getTranslateY();
+				double webRad = bug.getRadius();
+				
+				if ((this.getTranslateX() > (webX - webRad)) && (this.getTranslateX() < (webX + webRad))) {
+					
+					if ((this.getTranslateY() > (webY - webRad)) && (this.getTranslateY() < (webY + webRad))) {
+						nextTo = true;
+					}
+				}
+			}
+		
+			
+		}
+		return nextTo;
+	}
+	
+	
+	
 	
 	@Override
 	public void animate(double sceneWidth, double sceneHeight) {

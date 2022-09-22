@@ -15,5 +15,6 @@ public class Web extends Circle {
 		this.setFill(new ImagePattern(image));
 	}
 	
+	
 
 }

@@ -27,17 +27,18 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 
 
 public class Main extends Application {
-	private World world = new World();
+	private World world;
 	private int width = 1250;
 	private int height = 650;
 	
 	
 	@Override
 	public void start(Stage primaryStage) {
-		
+		world = new World();
 		BorderPane border = new BorderPane();
 		
 		border.setCenter(world);
@@ -46,24 +47,12 @@ public class Main extends Application {
 		border.setTop(top);
 		top.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
 		top.setPrefHeight(50);
-		
-		generatePlant(5); // generate 3 plants
-		generateLadybug(5);
-		generateFly(5);
-		
-		// create new bugs and plants, add them to their group and ArrayList
-		for (int i = 0; i < 3; i++) {
-			
-		
-			
-		}
-		
-		Spider newSpider = new Spider(50, 50, 30);
-		world.setSpider(newSpider);
-		world.getChildren().add(newSpider);
-		
 
 		// controls
+		Button restart = new Button("Restart");
+		top.getChildren().add(restart);
+		top.setMargin(restart, new Insets(5));
+		
 		Button pause = new Button("Pause");
 		top.getChildren().add(pause);
 		top.setMargin(pause, new Insets(5));
@@ -80,6 +69,10 @@ public class Main extends Application {
 		webProgress.setPrefWidth(300);
 		top.getChildren().add(webProgress);
 		top.setMargin(webProgress, new Insets(5));
+		
+		Label messages = new Label("");
+		top.getChildren().add(messages);
+		top.setMargin(messages, new Insets(5));
 		
 		
 //
@@ -130,6 +123,10 @@ public class Main extends Application {
 		});
 		//world.setOnKeyTyped( e -> keyTyped(e) );
 		
+		
+		Timeline timeline = new Timeline();
+		
+		
 		// animation of bugs
 		KeyFrame frame = new KeyFrame(Duration.millis(16), new EventHandler<ActionEvent>() {
 
@@ -138,11 +135,22 @@ public class Main extends Application {
 				// animate each of the balls in the arraylist
 				world.update();
 				webProgress.setProgress(world.getSpider().getReadyToWeb()/100);
+				if (world.getSpider().dead) {
+					timeline.stop();
+					messages.setText("GAME OVER: YOU LOSE!");
+				}
+				
+				if (checkForWin()) {
+					timeline.stop();
+					messages.setText("GAME OVER: YOU WIN!");
+				}
+				
+				
 			}
 		});
 		
 		// play frame
-		Timeline timeline = new Timeline();
+		
 		timeline.setCycleCount(javafx.animation.Animation.INDEFINITE);
 		timeline.getKeyFrames().add(frame);
 		timeline.play();
@@ -167,10 +175,16 @@ public class Main extends Application {
 			
 		});
 		
-		
+		restart.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
-
-	
+			@Override
+			public void handle(MouseEvent arg0) {
+				timeline.stop();
+				start(primaryStage);
+				
+			}
+			
+		});
 		
 		
 		// set scene and show primaryStage
@@ -207,42 +221,21 @@ public class Main extends Application {
 		launch(args);
 	}
 	
-	private void generatePlant(int numberOfPlants) {
-		for (int i = 0; i < numberOfPlants; i++) {
-			int newX = getRandomNumber(40, width-40);
-			int newY = getRandomNumber(40, height-40);
-			Plant newPlant = new Plant(newX, newY, 10);
-			world.getPlants().add(newPlant);
-			world.getChildren().add(newPlant);
-		}
-	}
-	
-	
-	private void generateLadybug(int numberOfLadyBugs) {
-		for (int i = 0; i < numberOfLadyBugs; i++) {
-			int newX = getRandomNumber(40, width);
-			int newY = getRandomNumber(40, height);
-			Ladybug newLB = new Ladybug(newX, newY, 10);
-			world.getBugs().add(newLB);
-			world.getChildren().add(newLB);
-		}
-	}
-	
-	private void generateFly(int numberOfFlys) {
-		for (int i = 0; i < numberOfFlys; i++) {
-			int newX = getRandomNumber(40, width);
-			int newY = getRandomNumber(40, height);
-			Fly newBug = new Fly(newX, newY, 10);
-			world.getBugs().add(newBug);
-			world.getChildren().add(newBug);
-		}
-	}
+
 		
 	
-	
-	private int getRandomNumber(int minimum, int maximum) {
-		return (int) (Math.random() * (maximum)) + minimum;
+	private boolean checkForWin() {
+		for(Bug bug: world.bugs) {
+			if (bug instanceof Fly) {
+				if (!((Fly) bug).isCaught()) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
+	
+
 	
 	
 

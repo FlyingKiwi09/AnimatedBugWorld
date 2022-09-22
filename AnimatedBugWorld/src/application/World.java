@@ -11,6 +11,10 @@ public class World extends Pane{
 	final ArrayList<Bug> bugs = new ArrayList<Bug>();
 	final ArrayList<Plant> plants = new ArrayList<Plant>();
 	private Spider spider;
+	private int width = 1250;
+	private int height = 650;
+	
+	
 
 //	private final int BUG_QUANTITY = 3;
 //	private final int PLANT_QUANTITY = 3;
@@ -22,7 +26,15 @@ public class World extends Pane{
 	
 	// constructor
 	public World() {
+		super();
+		// generate creatures
+		generatePlant(5); 
+		generateLadybug(5);
+		generateFly(5);
+		
+		spider = new Spider(50, 50, 30);
 
+		this.getChildren().add(spider);
 	
 	}
 
@@ -63,9 +75,40 @@ public class World extends Pane{
 	}
 	
 	
+	private void generatePlant(int numberOfPlants) {
+		for (int i = 0; i < numberOfPlants; i++) {
+			int newX = getRandomNumber(40, width-40);
+			int newY = getRandomNumber(40, height-40);
+			Plant newPlant = new Plant(newX, newY, 10);
+			plants.add(newPlant);
+			this.getChildren().add(newPlant);
+		}
+	}
 	
 	
+	private void generateLadybug(int numberOfLadyBugs) {
+		for (int i = 0; i < numberOfLadyBugs; i++) {
+			int newX = getRandomNumber(40, width);
+			int newY = getRandomNumber(40, height);
+			Ladybug newLB = new Ladybug(newX, newY, 10);
+			bugs.add(newLB);
+			this.getChildren().add(newLB);
+		}
+	}
 	
+	private void generateFly(int numberOfFlys) {
+		for (int i = 0; i < numberOfFlys; i++) {
+			int newX = getRandomNumber(40, width);
+			int newY = getRandomNumber(40, height);
+			Fly newBug = new Fly(newX, newY, 10);
+			bugs.add(newBug);
+			this.getChildren().add(newBug);
+		}
+	}
+	
+	private int getRandomNumber(int minimum, int maximum) {
+		return (int) (Math.random() * (maximum)) + minimum;
+	}
 	
 	
 //	/*
