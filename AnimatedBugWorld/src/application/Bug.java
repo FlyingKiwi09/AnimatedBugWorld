@@ -6,29 +6,20 @@ import javafx.scene.shape.Circle;
 
 public class Bug extends Circle {
 	
-	
 	protected float dx;
-//	protected final ImageView imageView;
-
 	protected float dy;
-	
 	protected int energy;
 	protected int ID;
 	protected static int bugCount = 0;
 	protected Direction direction;
-
-
 	protected int smellRange;
 	protected String eats;
-	
 	protected boolean dead;
-	
 	protected int lastEaten;
 	protected boolean isStopped;
 	protected int stoppedCount;
 	
-	// constructors
-	// pre-defined bug
+	// constructor
 	public Bug(double x, double y, double rad) {
 		super(0,0, rad);
 		this.setTranslateX(x);
