@@ -2,31 +2,48 @@ package application;
 
 import java.util.ArrayList;
 
+import javafx.animation.RotateTransition;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.transform.Rotate;
+import javafx.util.Duration;
 
 public class Spider extends Bug {
 	
 	private ArrayList<Web> webs = new ArrayList<Web>();
 	private double readyToWeb = 100;
+	private RotateTransition rotate;
+	private boolean isRotating;
 	
 	public Spider(double x, double y, double rad) {
 		super(x, y, rad);
 
 		this.eats = "Fly";
 		this.smellRange = 5;
-		
-		
 		Image spiderImage = new Image(getClass().getResourceAsStream("/spider.png"), 50,50,true,true);
 		this.setFill(new ImagePattern(spiderImage));
-
+		this.isRotating = false;
+		
+		// rotating transition for laying a web
+		// from: https://www.youtube.com/watch?v=AizCyDQbdJc
+		rotate = new RotateTransition();
+		rotate.setAxis(Rotate.Z_AXIS);
+		rotate.setByAngle(720);
+		rotate.setCycleCount(1);
+		rotate.setDuration(Duration.millis(1000));
+		rotate.setNode(this);
+		rotate.setOnFinished(e -> this.isRotating = false);
 	}
 	
 	@Override
 	public void update(World world) {
-		animate(world.getWidth(), world.getHeight());
+		
+		if (!isRotating) {
+			animate(world.getWidth(), world.getHeight());
+		}
+		
 		if (readyToWeb < 100) {
-			readyToWeb++;
+			readyToWeb = readyToWeb+0.25;
 		}
 		
 		if (nextToLB(world)) {
@@ -98,6 +115,8 @@ public class Spider extends Bug {
 			Web newWeb = new Web(this.getTranslateX(), this.getTranslateY(), 20);
 			this.webs.add(newWeb);
 			((World) this.getParent()).addWeb(newWeb);
+			this.rotate.play();
+			this.isRotating = true;
 			readyToWeb = 0;
 		}
 	}
