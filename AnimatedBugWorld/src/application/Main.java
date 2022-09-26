@@ -1,6 +1,8 @@
 package application;
 	
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -35,9 +37,10 @@ import javafx.scene.text.Text;
 
 public class Main extends Application {
 	private World world;
-	private int width = 1250;
-	private int height = 650;
-	
+    private Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+    private double screenHeight = dimension.getHeight();
+    private double screenWidth = dimension.getWidth();
+
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -163,7 +166,7 @@ public class Main extends Application {
 		
 		
 
-		final Scene scene = new Scene(border,width,height);
+		final Scene scene = new Scene(border);
 
 		scene.addEventFilter(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
 
@@ -267,6 +270,8 @@ public class Main extends Application {
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		primaryStage.setTitle("Hello Annimation");
 		primaryStage.setScene(scene);
+		primaryStage.setWidth(screenWidth);
+		primaryStage.setHeight(screenHeight-40);
 		primaryStage.show();
 	}
 	
