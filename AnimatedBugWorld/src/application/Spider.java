@@ -14,6 +14,8 @@ public class Spider extends Bug {
 	private double readyToWeb = 100;
 	private RotateTransition rotate;
 	private boolean isRotating;
+	private boolean stopped = false;
+	private int stoppedCount = 0;
 	
 	public Spider(double x, double y, double rad) {
 		super(x, y, rad);
@@ -37,6 +39,13 @@ public class Spider extends Bug {
 	
 	@Override
 	public void update(World world) {
+		stoppedCount--;
+		
+		
+		if (nextToPlant(world) != null && stoppedCount == 0) {
+			setStopped();
+			stoppedCount = 100;
+		}
 		
 		if (!isRotating) {
 			animate(world.getWidth(), world.getHeight());
@@ -77,6 +86,26 @@ public class Spider extends Bug {
 	}
 	
 	
+//	public boolean nextToPlant(World world) {
+//		boolean nextTo = false;
+//		ArrayList<Plant> plants = world.getPlants();
+//		for (Plant plant: plants) {
+//
+//			double plantX = plant.getTranslateX();
+//			double plantY = plant.getTranslateY();
+//			double plantRad = plant.getRadius();
+//			
+//			if ((this.getTranslateX() > (plantX - plantRad)) && (this.getTranslateX() < (plantX + plantRad))) {
+//				
+//				if ((this.getTranslateY() > (plantY - plantRad)) && (this.getTranslateY() < (plantY + plantRad))) {
+//					nextTo = true;
+//				}
+//			}
+//			
+//		}
+//		return nextTo;
+//	}
+	
 	
 	
 	@Override
@@ -108,6 +137,10 @@ public class Spider extends Bug {
 		if (this.getTranslateY() + this.getRadius() > sceneHeight) {
 			this.direction = Direction.N;
 		}
+	}
+	
+	public void setStopped() {
+		this.stopped = true;
 	}
 	
 	public void makeWeb() {
