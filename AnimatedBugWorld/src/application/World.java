@@ -13,7 +13,7 @@ public class World extends Pane{
 	private Spider spider;
 	private int width = 1250;
 	private int height = 650;
-	
+	private double counter = 0;
 	
 
 //	private final int BUG_QUANTITY = 3;
@@ -48,6 +48,13 @@ public class World extends Pane{
 			plants.get(i).grow();
 		}
 		spider.update(this);
+		counter++;
+		if (counter == 1000) {
+			generatePlant(1); 
+			generateLadybug(1);
+			generateFly(1);
+			counter = 0;
+		}
 	}
 	
 	public ArrayList<Bug> getBugs() {

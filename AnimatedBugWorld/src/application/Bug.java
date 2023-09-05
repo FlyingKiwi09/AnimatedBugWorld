@@ -201,6 +201,7 @@ public class Bug extends Circle {
 				 this.dy = -1.5f;
 				 this.setRotate(315);
 				 break;
+				 
 		}
 	}
 
